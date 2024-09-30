@@ -24,7 +24,7 @@ function get_weather_temp($locatie)
 {
     $locatie = strtolower($locatie);
     $api_key = defined('API_WEATHER_KEY');
-    $api_url = "https://api.openweathermap.org/data/2.5/weather?q=$locatie&appid=&units=metric";
+    $api_url = "https://api.openweathermap.org/data/2.5/weather?q=$locatie&appid=$api_key&units=metric";
 
     // Face apelul HTTP GET
     $response = wp_remote_get($api_url);
