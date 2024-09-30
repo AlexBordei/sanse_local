@@ -9,21 +9,37 @@
  * Author URI:        https://alexbordei.dev
  */
 
-function vremea_astazi_func( $atts ) {
-    $locatie = "Bucharest";
-    if(isset($atts['locatie'])) {
+function vremea_astazi_func($atts)
+{
+    $locatie = '';
+
+    if (isset($atts['locatie'])) {
         $locatie = ucfirst($atts['locatie']);
+    } else {
+        $publicIp = file_get_contents('https://api.ipify.org');
+
+        $location = wp_remote_get("http://ip-api.com/json/$publicIp");
+
+        if (is_wp_error($location)) {
+            $locatie = "Calarasi";
+        } else {
+            $location_data = json_decode(wp_remote_retrieve_body($location), true);
+
+            $locatie = $location_data['regionName'];
+
+        }
     }
 
     $vremea = get_weather_temp($locatie);
     return "Vremea astazi la $locatie, este de $vremea";
 }
-add_shortcode( 'vremea_astazi', 'vremea_astazi_func' );
+
+add_shortcode('vremea_astazi', 'vremea_astazi_func');
 
 function get_weather_temp($locatie)
 {
     $locatie = strtolower($locatie);
-    $api_key = defined('API_WEATHER_KEY');
+    $api_key = API_WEATHER_KEY;
     $api_url = "https://api.openweathermap.org/data/2.5/weather?q=$locatie&appid=$api_key&units=metric";
 
     // Face apelul HTTP GET
@@ -47,3 +63,5 @@ function get_weather_temp($locatie)
         return 'N/A';
     }
 }
+
+
