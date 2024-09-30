@@ -23,7 +23,8 @@ add_shortcode( 'vremea_astazi', 'vremea_astazi_func' );
 function get_weather_temp($locatie)
 {
     $locatie = strtolower($locatie);
-    $api_url = "https://api.openweathermap.org/data/2.5/weather?q=$locatie&appid=0b5109f774ac90587cf84d40b5858fd9&units=metric";
+    $api_key = defined('API_WEATHER_KEY');
+    $api_url = "https://api.openweathermap.org/data/2.5/weather?q=$locatie&appid=&units=metric";
 
     // Face apelul HTTP GET
     $response = wp_remote_get($api_url);
