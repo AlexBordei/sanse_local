@@ -42,6 +42,7 @@ function get_weather_temp($locatie)
 
         return intval($temperature) . '°C';
     } else {
+        // returneaza nimic
         return 'N/A';
     }
 }
